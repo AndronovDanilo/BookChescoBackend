@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookChescoAPI", "BookChescoAPI\BookChescoAPI.csproj", "{0D4001EF-D3C4-4529-9B7B-BEFC23B51325}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookChescoDomain", "BookChescoDomain\BookChescoDomain.csproj", "{2CA49CA1-3722-48EF-8E13-29FAF4836935}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookChescoInfrastructure", "BookChescoInfrastructure\BookChescoInfrastructure.csproj", "{689138BD-3DA3-471E-B732-BE40A5473B04}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0D4001EF-D3C4-4529-9B7B-BEFC23B51325}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0D4001EF-D3C4-4529-9B7B-BEFC23B51325}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0D4001EF-D3C4-4529-9B7B-BEFC23B51325}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0D4001EF-D3C4-4529-9B7B-BEFC23B51325}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2CA49CA1-3722-48EF-8E13-29FAF4836935}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2CA49CA1-3722-48EF-8E13-29FAF4836935}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2CA49CA1-3722-48EF-8E13-29FAF4836935}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2CA49CA1-3722-48EF-8E13-29FAF4836935}.Release|Any CPU.Build.0 = Release|Any CPU
+		{689138BD-3DA3-471E-B732-BE40A5473B04}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{689138BD-3DA3-471E-B732-BE40A5473B04}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{689138BD-3DA3-471E-B732-BE40A5473B04}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{689138BD-3DA3-471E-B732-BE40A5473B04}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
