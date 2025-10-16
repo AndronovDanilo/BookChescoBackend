@@ -1,22 +1,22 @@
 # BookChescoBackend
 
-Адаптивное веб-приложение для бронирования отелей и управления гостиничным бизнесом.
+Adaptive web application for hotel booking and management.
 
-## Технологии
+## Technologies
 - C# (.NET 8)
 - MongoDB
 - ASP.NET Core
-- Cloudinary (для хранения фотографий)
-- Bcrypt (для хеширования паролей)
+- Cloudinary (for image storage)
+- Bcrypt (for password hashing)
 
-## Основные возможности
-- Регистрация и авторизация пользователей с разными ролями (администратор, владелец отеля, менеджер, клиент, гость)
-- Управление бронированиями и номерами отелей
-- Загрузка и хранение фотографий отелей и номеров
-- Безопасное хранение данных и паролей
-- Адаптивный интерфейс для работы на компьютерах и мобильных устройствах
+## Main features
+- Registration and authentication of users with different roles (administrator, hotel owner, manager, client, guest)
+- Management of bookings and hotel rooms
+- Uploading and storing photos of hotels and rooms
+- Secure storage of data and passwords
+- Responsive interface for desktop and mobile devices
 
-## Запуск проекта
-1. Клонируйте репозиторий  
-2. Настройте параметры подключения к MongoDB и Cloudinary в файлах конфигурации  
-3. Соберите и запустите проект через IDE или командную строку
+## Running the project
+1. Clone the repository  
+2. Configure MongoDB and Cloudinary connection settings in the configuration files  
+3. Build and run the project via an IDE or the command line
