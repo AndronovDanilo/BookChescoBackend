@@ -1,6 +1,6 @@
 ﻿using BookChescoDomain.Models;
 
-namespace BookChescoInfrastructure.Repositories;
+namespace BookChescoDomain.Repositories;
 
 public interface IUserRepository
 {

@@ -1,21 +1,13 @@
-﻿using MongoDB.Bson.Serialization.Attributes; 
-
-namespace BookChescoDomain.Models;
+﻿namespace BookChescoDomain.Models;
 
 public class User : Entity
 {
-    [BsonElement("login")]
-    public string? Login { get; set; }
-    [BsonElement("password")]
-    public string? Password { get; set; }
-    [BsonElement("email")]
-    public string? Email { get; set; }
-    [BsonElement("role")]
-    public UserRole Role { get; set; }
-    [BsonElement("hotelId")]
+    public required string Login { get; set; }
+    public required string Password { get; set; }
+    public required string Email { get; set; }
+    public required UserRole Role { get; set; }
     public string? HotelId { get; set; }
-    [BsonElement("photos")]
-    public Photo? Photos { get; set; }
+    public string? PhotoId { get; set; }
 }
 
 public enum UserRole

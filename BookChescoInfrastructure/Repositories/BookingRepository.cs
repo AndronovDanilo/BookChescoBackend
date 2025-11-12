@@ -1,5 +1,6 @@
 ﻿    using BookChescoDomain.Models;
     using BookChescoInfrastructure.Services;
+    using BookChescoDomain.Repositories;
     using MongoDB.Driver;
 
     namespace BookChescoInfrastructure.Repositories;
