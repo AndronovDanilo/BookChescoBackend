@@ -8,8 +8,6 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IPasswordHasher, BcryptPasswordHasher>();
@@ -21,14 +19,8 @@ builder.Services.AddSingleton(sp =>
     return new Cloudinary(account);
 });
 builder.Services.AddSingleton<ICloudinaryService, CloudinaryService>();
-
-// Register EF Core DbContext (SQL Server). Uses connection string "DefaultConnection" from configuration
-// with a safe fallback to localdb for development if not provided.
 builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")
-                         ?? "Server=(localdb)\\mssqllocaldb;Database=BookChescoDb;Trusted_Connection=True;"));
-
-// Register repositories (EF Core implementations)
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddScoped<IHotelRepository, HotelRepository>();
 builder.Services.AddScoped<IRoomRepository, RoomRepository>();
 builder.Services.AddScoped<IBookingRepository, BookingRepository>();
