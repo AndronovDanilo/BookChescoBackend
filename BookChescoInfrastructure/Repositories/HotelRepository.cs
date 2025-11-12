@@ -1,30 +1,49 @@
 ﻿using BookChescoDomain.Models;
-using BookChescoInfrastructure.Services;
 using BookChescoDomain.Repositories;
-using MongoDB.Driver;
+using BookChescoInfrastructure.Configuration;
+using Microsoft.EntityFrameworkCore;
 
 namespace BookChescoInfrastructure.Repositories;
 
 public class HotelRepository : IHotelRepository
 {
-    private readonly IMongoCollection<Hotel> _hotelsCollection;
+    private readonly AppDbContext _context;
 
-    public HotelRepository(MongoDbService mongoDbService)
+    public HotelRepository(AppDbContext context)
     {
-        _hotelsCollection = mongoDbService.GetCollection<Hotel>("hotels");
+        _context = context;
     }
+
     public async Task<List<Hotel>> GetAsync() =>
-        await _hotelsCollection.Find(_ => true).ToListAsync();
+        await _context.Hotels
+            .AsNoTracking()
+            .ToListAsync();
 
-    public async Task<Hotel?> GetAsync(string id) =>
-        await _hotelsCollection.Find(x => x.Id == id).FirstOrDefaultAsync();
+    public async Task<Hotel?> GetAsync(int id) =>
+        await _context.Hotels
+            .Include(h => h.Rooms)
+            .Include(h => h.Photos)
+            .AsNoTracking()
+            .FirstOrDefaultAsync(h => h.Id == id);
 
-    public async Task CreateAsync(Hotel newHotel) =>
-        await _hotelsCollection.InsertOneAsync(newHotel);
+    public async Task CreateAsync(Hotel newHotel)
+    {
+        _context.Hotels.Add(newHotel);
+        await _context.SaveChangesAsync();
+    }
 
-    public async Task UpdateAsync(string id, Hotel updatedHotel) =>
-        await _hotelsCollection.ReplaceOneAsync(x => x.Id == id, updatedHotel);
+    public async Task UpdateAsync(int id, Hotel updatedHotel)
+    {
+        updatedHotel.Id = id;
+        _context.Hotels.Update(updatedHotel);
+        await _context.SaveChangesAsync();
+    }
 
-    public async Task RemoveAsync(string id) =>
-        await _hotelsCollection.DeleteOneAsync(x => x.Id == id);
+    public async Task RemoveAsync(int id)
+    {
+        var existing = await _context.Hotels.FindAsync(id);
+        if (existing is null) return;
+        _context.Hotels.Remove(existing);
+        await _context.SaveChangesAsync();
+    }
 }

@@ -1,7 +1,10 @@
 using BookChescoInfrastructure.Configuration;
 using BookChescoInfrastructure.Services;
+using BookChescoInfrastructure.Repositories;
+using BookChescoDomain.Repositories;
 using CloudinaryDotNet;
 using Microsoft.Extensions.Options;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,6 +21,19 @@ builder.Services.AddSingleton(sp =>
     return new Cloudinary(account);
 });
 builder.Services.AddSingleton<ICloudinaryService, CloudinaryService>();
+
+// Register EF Core DbContext (SQL Server). Uses connection string "DefaultConnection" from configuration
+// with a safe fallback to localdb for development if not provided.
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")
+                         ?? "Server=(localdb)\\mssqllocaldb;Database=BookChescoDb;Trusted_Connection=True;"));
+
+// Register repositories (EF Core implementations)
+builder.Services.AddScoped<IHotelRepository, HotelRepository>();
+builder.Services.AddScoped<IRoomRepository, RoomRepository>();
+builder.Services.AddScoped<IBookingRepository, BookingRepository>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -30,4 +46,3 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.Run();
-

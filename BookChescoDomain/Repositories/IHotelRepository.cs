@@ -5,8 +5,8 @@ namespace BookChescoDomain.Repositories;
 public interface IHotelRepository
 {
     Task<List<Hotel>> GetAsync();
-    Task<Hotel?> GetAsync(string id);
+    Task<Hotel?> GetAsync(int id);
     Task CreateAsync(Hotel newHotel);
-    Task UpdateAsync(string id, Hotel updatedHotel);
-    Task RemoveAsync(string id);
+    Task UpdateAsync(int id, Hotel updatedHotel);
+    Task RemoveAsync(int id);
 }

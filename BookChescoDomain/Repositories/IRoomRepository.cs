@@ -5,8 +5,8 @@ namespace BookChescoDomain.Repositories;
 public interface IRoomRepository
 {
     Task<List<Room>> GetAsync();
-    Task<Room?> GetAsync(string id);
+    Task<Room?> GetAsync(int id);
     Task CreateAsync(Room newRoom);
-    Task UpdateAsync(string id, Room updatedRoom);
-    Task RemoveAsync(string id);
+    Task UpdateAsync(int id, Room updatedRoom);
+    Task RemoveAsync(int id);
 }

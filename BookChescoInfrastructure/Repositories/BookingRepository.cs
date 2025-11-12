@@ -1,30 +1,51 @@
-﻿    using BookChescoDomain.Models;
-    using BookChescoInfrastructure.Services;
-    using BookChescoDomain.Repositories;
-    using MongoDB.Driver;
+﻿using BookChescoDomain.Models;
+using BookChescoDomain.Repositories;
+using BookChescoInfrastructure.Configuration;
+using Microsoft.EntityFrameworkCore;
 
-    namespace BookChescoInfrastructure.Repositories;
+namespace BookChescoInfrastructure.Repositories;
 
-    public class BookingRepository : IBookingRepository
+public class BookingRepository : IBookingRepository
+{
+    private readonly AppDbContext _context;
+
+    public BookingRepository(AppDbContext context)
     {
-        private readonly IMongoCollection<Booking> _bookingsCollection;
-
-        public BookingRepository(MongoDbService mongoDbService)
-        {
-            _bookingsCollection = mongoDbService.GetCollection<Booking>("bookings");
-        }
-        public async Task<List<Booking>> GetAsync() =>
-            await _bookingsCollection.Find(_ => true).ToListAsync();
-
-        public async Task<Booking?> GetAsync(string id) =>
-            await _bookingsCollection.Find(x => x.Id == id).FirstOrDefaultAsync();
-
-        public async Task CreateAsync(Booking newBooking) =>
-            await _bookingsCollection.InsertOneAsync(newBooking);
-
-        public async Task UpdateAsync(string id, Booking updatedBooking) =>
-            await _bookingsCollection.ReplaceOneAsync(x => x.Id == id, updatedBooking);
-
-        public async Task RemoveAsync(string id) =>
-            await _bookingsCollection.DeleteOneAsync(x => x.Id == id);
+        _context = context;
     }
+
+    public async Task<List<Booking>> GetAsync() =>
+        await _context.Bookings
+            .Include(b => b.User)
+            .Include(b => b.Room)
+            .AsNoTracking()
+            .ToListAsync();
+
+    public async Task<Booking?> GetAsync(int id) =>
+        await _context.Bookings
+            .Include(b => b.User)
+            .Include(b => b.Room)
+            .AsNoTracking()
+            .FirstOrDefaultAsync(b => b.Id == id);
+
+    public async Task CreateAsync(Booking newBooking)
+    {
+        _context.Bookings.Add(newBooking);
+        await _context.SaveChangesAsync();
+    }
+
+    public async Task UpdateAsync(int id, Booking updatedBooking)
+    {
+        updatedBooking.Id = id;
+        _context.Bookings.Update(updatedBooking);
+        await _context.SaveChangesAsync();
+    }
+
+    public async Task RemoveAsync(int id)
+    {
+        var existing = await _context.Bookings.FindAsync(id);
+        if (existing is null) return;
+        _context.Bookings.Remove(existing);
+        await _context.SaveChangesAsync();
+    }
+}
