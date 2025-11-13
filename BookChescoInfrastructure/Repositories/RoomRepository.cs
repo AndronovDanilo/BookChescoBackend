@@ -1,29 +1,52 @@
 ﻿using BookChescoDomain.Models;
-using BookChescoInfrastructure.Services;
-using MongoDB.Driver;
+using BookChescoDomain.Repositories;
+using BookChescoInfrastructure.Configuration;
+using Microsoft.EntityFrameworkCore;
 
 namespace BookChescoInfrastructure.Repositories;
 
 public class RoomRepository : IRoomRepository
 {
-    private readonly IMongoCollection<Room> _roomsCollection;
+    private readonly AppDbContext _context;
 
-    public RoomRepository(MongoDbService mongoDbService)
+    public RoomRepository(AppDbContext context)
     {
-        _roomsCollection = mongoDbService.GetCollection<Room>("rooms");
+        _context = context;
     }
+
     public async Task<List<Room>> GetAsync() =>
-        await _roomsCollection.Find(_ => true).ToListAsync();
+        await _context.Rooms
+            .Include(r => r.Photos)
+            .Include(r => r.Bookings)
+            .AsNoTracking()
+            .ToListAsync();
 
-    public async Task<Room?> GetAsync(string id) =>
-        await _roomsCollection.Find(x => x.Id == id).FirstOrDefaultAsync();
+    public async Task<Room?> GetAsync(int id) =>
+        await _context.Rooms
+            .Include(r => r.Photos)
+            .Include(r => r.Bookings)
+            .Include(r => r.Hotel)
+            .AsNoTracking()
+            .FirstOrDefaultAsync(r => r.Id == id);
 
-    public async Task CreateAsync(Room newRoom) =>
-        await _roomsCollection.InsertOneAsync(newRoom);
+    public async Task CreateAsync(Room newRoom)
+    {
+        _context.Rooms.Add(newRoom);
+        await _context.SaveChangesAsync();
+    }
 
-    public async Task UpdateAsync(string id, Room updatedRoom) =>
-        await _roomsCollection.ReplaceOneAsync(x => x.Id == id, updatedRoom);
+    public async Task UpdateAsync(int id, Room updatedRoom)
+    {
+        updatedRoom.Id = id;
+        _context.Rooms.Update(updatedRoom);
+        await _context.SaveChangesAsync();
+    }
 
-    public async Task RemoveAsync(string id) =>
-        await _roomsCollection.DeleteOneAsync(x => x.Id == id);
+    public async Task RemoveAsync(int id)
+    {
+        var existing = await _context.Rooms.FindAsync(id);
+        if (existing is null) return;
+        _context.Rooms.Remove(existing);
+        await _context.SaveChangesAsync();
+    }
 }

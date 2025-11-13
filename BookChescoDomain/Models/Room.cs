@@ -1,17 +1,13 @@
-﻿using MongoDB.Bson.Serialization.Attributes;
-
-namespace BookChescoDomain.Models;
+﻿namespace BookChescoDomain.Models;
 
 public class Room : Entity
 {
-    [BsonElement("number")]
     public int? Number { get; set; }
-    [BsonElement("price")]
     public double? Price { get; set; }
-    [BsonElement("capacity")]
     public int? Capacity {get; set;}
-    [BsonElement("isfree")]
     public bool? IsFree {get; set;}
-    [BsonElement("photos")]
-    public List<Photo>? Photos { get; set; }
+    public int HotelId { get; set; }
+    public Hotel? Hotel { get; set; }
+    public List<Booking> Bookings { get; set; } = new();
+    public List<Photo> Photos { get; set; } = new();
 }
