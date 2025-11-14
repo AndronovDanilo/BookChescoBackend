@@ -1,4 +1,6 @@
-﻿namespace BookChescoDomain.Models;
+﻿using BookChescoDomain.Enums;
+
+namespace BookChescoDomain.Models;
 
 public class User : Entity
 {
@@ -8,13 +10,4 @@ public class User : Entity
     public required UserRole Role { get; set; }
     public List<Booking> Bookings { get; set; } = new();
     public string? PhotoId { get; set; }
-}
-
-public enum UserRole
-{
-    Admin,        
-    HotelOwner,   
-    Manager,      
-    Client,       
-    Guest         
 }
