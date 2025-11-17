@@ -7,7 +7,7 @@ public class Booking : Entity
     public DateTime? DateInRoom { get; set;}
     public DateTime? DateOutRoom { get; set;}
     public BookingStatus Status { get; set; } = BookingStatus.Pending;
-    public bool? Paid { get; set; }
+    public bool? IsPaid { get; set; }
     public double? Amount { get; set; }
     
     public int? UserId { get; set; }
