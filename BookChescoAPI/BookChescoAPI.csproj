@@ -24,10 +24,4 @@
       <ProjectReference Include="..\BookChescoInfrastructure\BookChescoInfrastructure.csproj" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="Contracts\Booking\" />
-      <Folder Include="Contracts\Room\" />
-      <Folder Include="Contracts\User\" />
-    </ItemGroup>
-
 </Project>
